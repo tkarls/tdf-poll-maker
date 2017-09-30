@@ -1,0 +1,16 @@
+img {
+    max-width: 100px;
+}
+
+.highlighted { background: yellow }
+
+table {
+    text-align: left;
+    width: 100%;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    max-width: 300px;
+}

@@ -8,6 +8,7 @@
 // 'test/spec/**/*.js'
 
 var modRewrite = require('connect-modrewrite');
+var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
 module.exports = function (grunt) {
 
@@ -28,6 +29,7 @@ module.exports = function (grunt) {
   };
 
   // Define the configuration for all the tasks
+  grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.initConfig({
 
     // Project settings
@@ -82,7 +84,9 @@ module.exports = function (grunt) {
           open: true,
           middleware: function (connect) {
             return [
-              modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png$ /index.html [L]']),
+              proxySnippet,
+              modRewrite(['^/(api.*) http://localhost:5000/$1 [P]']),
+              //modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.ico|\\.png$ /index.html [L]']),
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -95,7 +99,12 @@ module.exports = function (grunt) {
               connect.static(appConfig.app)
             ];
           }
-        }
+        },
+        proxies: [{
+          context: '/api',
+          host: 'localhost',
+          port: 5000,
+        }]
       },
       test: {
         options: {
@@ -466,6 +475,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'configureProxies:server',
       'concurrent:server',
       'postcss:server',
       'connect:livereload',

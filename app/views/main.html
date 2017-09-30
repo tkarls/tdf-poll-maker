@@ -1,23 +1,24 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" href="/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+<div>
+  <input type="text" ng-model="tdfUri">
+  <button ng-click="loadCandidates(tdfUri)">Get candidate entries</button>
 </div>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+<div>
+  <table ng-if="candidates">
+    <tr>
+      <th>Author</th>
+      <th>Text</th>
+      <th>Image(s)</th>
+      <th>Doll name</th>
+      <th>title</th>
+    </tr>
+    <tr ng-repeat="cand in candidates">
+      <td>{{cand.postAuthor}}</td>
+      <td ng-bind-html="cand.postBody.text | highlight:cand"></td>
+      <td><div ng-repeat="uri in cand.postBody.images"><img ng-src="{{uri}}"></div></td>
+      <td><input type="text" ng-model="cand.dollName"></td>
+      <td><input type="text" ng-model="cand.title"></td>
+    </tr>
+    
+  </table>
 </div>
