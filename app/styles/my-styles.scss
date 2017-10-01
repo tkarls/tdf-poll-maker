@@ -1,5 +1,5 @@
 img {
-    max-width: 100px;
+    max-width: 150px;
 }
 
 .highlighted { background: yellow }
@@ -13,4 +13,36 @@ th, td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     max-width: 300px;
+}
+
+.doll-name{
+    color: fuchsia !important;
+}
+
+.not-an-entry{
+    color: #aaa;
+    img{
+        opacity: 0.3;
+    }
+}
+
+.bb-code{
+    margin-top: 200px;
+    font-size: x-small;
+
+    textarea{
+        width: 100%;
+        white-space: pre;
+        min-height: 500px;
+    }
+}
+
+.candidate-list{
+    margin-top: 100px;
+}
+
+.entry:not(.not-an-entry) .missing-info{
+    input{
+        background-color: lightblue;
+    }
 }

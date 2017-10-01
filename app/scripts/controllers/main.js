@@ -8,9 +8,9 @@
  * Controller of the tdfPollMakerApp
  */
 angular.module('tdfPollMakerApp')
-    .controller('MainCtrl', function ($http, $scope) {
+    .controller('MainCtrl', function ($http, $scope, $localStorage, $timeout) {
         
-        $scope.tdfUri = 'http://dollforum.com/forum/viewtopic.php?f=119&t=90472';
+        $scope.storage = $localStorage;
 
         var loadPollThreads = function() {
             $http.get('http://dollforum.com/forum/viewforum.php?f=119').then((result)=>{
@@ -21,21 +21,51 @@ angular.module('tdfPollMakerApp')
 
         $scope.loadCandidates = function(uri) {
             return $http.post('/api/parse/entry-thread', {threadUri: uri}).then((candidates)=>{
-                $scope.candidates = candidates.data;
+                
+                $scope.candidates = candidates.data.map((cand)=>{
+                    var storageKey = uri + cand.postAuthor + cand.postBody.images[0];
+                    cand.storageKey = storageKey;
+                    $localStorage[storageKey] = $localStorage[storageKey] || {isIncluded: true};
+                    return cand;
+                });
+
+                $timeout(()=>{
+                    //run a digest cycle after page is rendered!
+                },500);
             });
         }
 
-      
+        $scope.getBbCode = function(cand) {
+            var nameCaption = $localStorage[cand.storageKey];
+            return '[center][list][size=140][color=#EFF7FB][*][*][*][*]*[/color][b][color=#FF00FF]'+nameCaption.dollName+'[/color] [color=#0040FF]in "'+nameCaption.caption+'" [/color][/b][color=#EFF7FB][*]*[/color][i][color=#000000]by '+cand.postAuthor+'[/color][/i][/size][color=#EFF7FB][*]*[/color][color=#EFF7FB][*][img600]'+cand.postBody.images[0]+'[/img600][/color][/list][/center]';
+        }
+
+        $scope.getAllBbCode = function() {
+            var text = '';
+            ($scope.candidates || []).forEach(function(element) {
+                if(!$localStorage[element.storageKey].isIncluded){
+                    return;
+                }
+                text += $scope.getBbCode(element) + '\n';
+            });
+
+            return text.trim();
+        }
+        
         //run code
         //loadPollThreads();
-    }).filter('highlight', function($sce) {
-        return function(text, item) {
-            var regex = new RegExp(/((?:[A-Z]?[a-zA-z]+ and )?[A-Z]?[a-zA-z]+) (?:i|I)n."([a-zA-Z' -]+)"/)
+    }).filter('highlight', function($sce, $localStorage) {
+        return function(text, cand) {
+            var regex = new RegExp(/((?:[A-Z][a-zA-z]+ )?(?:[A-Z][a-zA-z]+ and )?[A-Z][a-zA-z]+) (?:i|I)n.{0,4}"([a-zA-Z0-9!?.,' -]+)"/)
             
             var match = text.match(regex);
             if(match){
-                item.dollName = match[1];
-                item.title = match[2]
+                if(!$localStorage[cand.storageKey].dollName){
+                    $localStorage[cand.storageKey].dollName = match[1];        
+                }
+                if(!$localStorage[cand.storageKey].caption){
+                    $localStorage[cand.storageKey].caption = match[2]        
+                }
             }
             text = text.replace(regex, '<span class="highlighted">$1</span> in "<span class="highlighted">$2</span>"')
             
