@@ -40,6 +40,7 @@
                 <md-input-container>
                     <label>Enter the caption</label>
                     <input ng-disabled="!storage[cand.storageKey].isIncluded" type="text" ng-model="storage[cand.storageKey].caption">
+                    <md-tooltip>{{storage[cand.storageKey].caption}}</md-tooltip>
                 </md-input-container>
             </td>
         </tr>
