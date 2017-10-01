@@ -13,16 +13,16 @@ angular.module('tdfPollMakerApp')
         $scope.storage = $localStorage;
 
         $scope.loadCandidates = function(uri) {
-            return $http.post('/api/parse/entry-thread', {threadUri: uri}).then((candidates)=>{
+            return $http.post('/api/parse/entry-thread', {threadUri: uri}).then( function (candidates) {
                 
-                $scope.candidates = candidates.data.map((cand)=>{
+                $scope.candidates = candidates.data.map( function (cand) {
                     var storageKey = uri + cand.postAuthor + cand.postBody.images[0];
                     cand.storageKey = storageKey;
                     $localStorage[storageKey] = $localStorage[storageKey] || {isIncluded: true};
                     return cand;
                 });
 
-                $timeout(()=>{
+                $timeout(function(){
                     //run a digest cycle after page is rendered!
                 },500);
             });
@@ -30,7 +30,7 @@ angular.module('tdfPollMakerApp')
 
         var trim = function (string){
             if(string){
-                return string.trim().replace(/^\"|\"$/g, "");
+                return string.trim().replace(/^\"|\"$/g, '');
             }
             return 'unknown';
         };
