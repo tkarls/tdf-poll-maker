@@ -35,9 +35,13 @@ angular.module('tdfPollMakerApp')
             });
         }
 
+        var trim = function (string){
+            return string.trim().replace(/^\"|\"$/g, "");
+        }
+
         $scope.getBbCode = function(cand) {
             var nameCaption = $localStorage[cand.storageKey];
-            return '[center][list][size=140][color=#EFF7FB][*][*][*][*]*[/color][b][color=#FF00FF]'+nameCaption.dollName+'[/color] [color=#0040FF]in "'+nameCaption.caption+'" [/color][/b][color=#EFF7FB][*]*[/color][i][color=#000000]by '+cand.postAuthor+'[/color][/i][/size][color=#EFF7FB][*]*[/color][color=#EFF7FB][*][img600]'+cand.postBody.images[0]+'[/img600][/color][/list][/center]';
+            return '[center][list][size=140][color=#EFF7FB][*][*][*][*]*[/color][b][color=#FF00FF]'+trim(nameCaption.dollName)+'[/color] [color=#000000]in[/color] [color=#0040FF]"'+trim(nameCaption.caption)+'" [/color][/b][color=#EFF7FB][*]*[/color][i][color=#000000]by '+cand.postAuthor+'[/color][/i][/size][color=#EFF7FB][*]*[/color][color=#EFF7FB][*][img600]'+cand.postBody.images[0]+'[/img600][/color][/list][/center]';
         }
 
         $scope.getAllBbCode = function() {
