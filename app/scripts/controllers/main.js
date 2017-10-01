@@ -36,7 +36,10 @@ angular.module('tdfPollMakerApp')
         }
 
         var trim = function (string){
-            return string.trim().replace(/^\"|\"$/g, "");
+            if(string){
+                return string.trim().replace(/^\"|\"$/g, "");
+            }
+            return 'unknown';
         }
 
         $scope.getBbCode = function(cand) {
@@ -60,7 +63,7 @@ angular.module('tdfPollMakerApp')
         //loadPollThreads();
     }).filter('highlight', function($sce, $localStorage) {
         return function(text, cand) {
-            var regex = new RegExp(/((?:[A-Z][a-zA-z]+ )?(?:[A-Z][a-zA-z]+ and )?[A-Z][a-zA-z]+) (?:i|I)n.{0,4}"([a-zA-Z0-9!?.,' -]+)"/)
+            var regex = new RegExp(/((?:[A-Z][a-zA-Z_\-0-9]+ )?(?:[A-Z][a-zA-Z_\-0-9]+ and )?[A-Z][a-zA-Z_\-0-9]+) (?:i|I)n.{0,4}"([a-zA-Z0-9!?.,' -_]+)"/)
             
             var match = text.match(regex);
             if(match){
