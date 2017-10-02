@@ -1,4 +1,24 @@
-<div layout="column">
+<div layout="column" ng-if="months">
+    <md-input-container>
+        <label>Select your contest thread</label>
+        <md-select
+            ng-model="storage.tdfUri"
+            aria-label="select the contest thread"
+            required >
+            <md-optgroup ng-repeat="month in months" label="{{month.name}}">
+                <md-option ng-repeat="thread in month.threads" ng-value="thread.uri">{{thread.name}}</md-option>
+            </md-optgroup>
+        </md-select>
+    </md-input-container>
+    <div>
+        <md-button class="md-primary md-raised" ng-click="loadCandidates(storage.tdfUri)" ng-disabled="loadingCandidates">Get candidate entries</md-button>
+    </div>
+</div>
+<div ng-if="!months">
+    <p>Loading contest threads...</p>
+</div>
+
+<!-- <div layout="column">
     <md-input-container>
         <label>Enter the URL to the contest thread</label>
         <input type="text" ng-model="storage.tdfUri">
@@ -6,11 +26,13 @@
     <div>
         <md-button class="md-primary md-raised" ng-click="loadCandidates(storage.tdfUri)">Get candidate entries</md-button>
     </div>
+</div> -->
 
+<div ng-if="loadingCandidates">
+    <p>Loading thread data...</p>
 </div>
-
-<div class="candidate-list">
-    <table ng-if="candidates">
+<div class="candidate-list" ng-if="candidates">
+    <table>
         <tr>
             <th>Entry?</th>
             <th>Contestant</th>
@@ -40,7 +62,7 @@
                 <md-input-container>
                     <label>Enter the caption</label>
                     <input ng-disabled="!storage[cand.storageKey].isIncluded" type="text" ng-model="storage[cand.storageKey].caption">
-                    <md-tooltip>{{storage[cand.storageKey].caption}}</md-tooltip>
+                    <md-tooltip>{{storage[cand.storageKey].caption || 'unknown'}}</md-tooltip>
                 </md-input-container>
             </td>
         </tr>
@@ -48,7 +70,7 @@
     </table>
 </div>
 
-<div class="bb-code">
+<div class="bb-code" ng-if="candidates">
     <md-button ngclipboard data-clipboard-target="#all-bb-code">Copy to clipboard</md-button>
     <div>
         <textarea readonly id="all-bb-code" ng-value="getAllBbCode()">

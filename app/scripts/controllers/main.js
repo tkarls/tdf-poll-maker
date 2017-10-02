@@ -8,25 +8,38 @@
  * Controller of the tdfPollMakerApp
  */
 angular.module('tdfPollMakerApp')
-    .controller('MainCtrl', function ($http, $scope, $localStorage, $timeout) {
+    .controller('MainCtrl', function ($http, $scope, $localStorage, $timeout, $log) {
         
         $scope.storage = $localStorage;
 
         $scope.loadCandidates = function(uri) {
-            return $http.post('/api/parse/entry-thread', {threadUri: uri}).then( function (candidates) {
+            $scope.loadingCandidates = true;
+            return $http.post('/api/parse/entry-thread', {threadUri: uri}).then( function (result) {
                 
-                $scope.candidates = candidates.data.map( function (cand) {
+                $scope.candidates = result.data.map( function (cand) {
                     var storageKey = uri + cand.postAuthor + cand.postBody.images[0];
                     cand.storageKey = storageKey;
                     $localStorage[storageKey] = $localStorage[storageKey] || {isIncluded: true};
                     return cand;
                 });
-
+            }).catch((error)=>{
+                $log.error(error);
+            }).then(()=>{
+                $scope.loadingCandidates = false;
+                
                 $timeout(function(){
                     //run a digest cycle after page is rendered!
-                },500);
+                },1000);
             });
         };
+
+        function loadThreads() {
+            return $http.post('/api/parse/forum-page').then((result)=>{
+                $scope.months = result.data;
+            }).catch((error)=>{
+
+            }).then(()=>{});
+        }
 
         var trim = function (string){
             if(string){
@@ -51,6 +64,10 @@ angular.module('tdfPollMakerApp')
 
             return text.trim();
         };
+
+
+        //run code on page load
+        loadThreads();
         
     }).filter('highlight', function($sce, $localStorage) {
         return function(text, cand) {
