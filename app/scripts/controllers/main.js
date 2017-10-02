@@ -22,9 +22,9 @@ angular.module('tdfPollMakerApp')
                     $localStorage[storageKey] = $localStorage[storageKey] || {isIncluded: true};
                     return cand;
                 });
-            }).catch((error)=>{
+            }).catch(function (error){
                 $log.error(error);
-            }).then(()=>{
+            }).then(function (){
                 $scope.loadingCandidates = false;
                 
                 $timeout(function(){
@@ -34,11 +34,11 @@ angular.module('tdfPollMakerApp')
         };
 
         function loadThreads() {
-            return $http.post('/api/parse/forum-page').then((result)=>{
+            return $http.post('/api/parse/forum-page').then(function (result){
                 $scope.months = result.data;
-            }).catch((error)=>{
-
-            }).then(()=>{});
+            }).catch(function (error){
+                $log.error(error);
+            }).then(function (){});
         }
 
         var trim = function (string){
