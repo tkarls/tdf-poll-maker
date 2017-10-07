@@ -1,0 +1,26 @@
+{
+  "name": "tdf-poll-maker-backend",
+  "version": "1.0.0",
+  "description": "The backend part of the tdf-poll-maker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkarls/tdf-poll-maker-backend.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tkarls/tdf-poll-maker-backend/issues"
+  },
+  "homepage": "https://github.com/tkarls/tdf-poll-maker-backend#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.1",
+    "moment": "^2.18.1",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
+  }
+}
