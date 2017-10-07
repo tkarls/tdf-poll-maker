@@ -7,7 +7,7 @@ const cheerio = require('cheerio');
 var moment = require('moment');
 
 app.use(bodyParser.json());
-app.use(express.static('../tdf-poll-maker/dist'))
+app.use(express.static('./frontend/dist'))
 
 app.post('/api/parse/forum-page', function (req, res) {
     parseForumThreadList().then((threads) => {
@@ -174,7 +174,7 @@ function getThreadsForMonth(month, threads){
     return candidates;
 }
 
-http.listen(5000);
+http.listen(process.env.PORT || 5000);
 
 
 
