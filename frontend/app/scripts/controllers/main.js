@@ -66,15 +66,15 @@ angular.module('tdfPollMakerApp')
             return text.trim();
         };
 
-        $scope.getNumEntries = ()=>{
+        $scope.getNumEntries = function() {
             if(!$scope.candidates){
                 return 0;
             }
 
-            return $scope.candidates.filter((element)=>{
+            return $scope.candidates.filter( function (element) {
                 return $localStorage[element.storageKey].isIncluded;
             }).length;
-        }
+        };
 
 
         //run code on page load
