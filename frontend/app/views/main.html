@@ -32,6 +32,7 @@
     <p>Loading thread data...</p>
 </div>
 <div class="candidate-list" ng-if="candidates">
+    <p><b>{{getNumEntries()}}</b> entries included out of {{candidates.length}} candidates</p>
     <table>
         <tr>
             <th>Entry?</th>
@@ -50,7 +51,14 @@
             </td>
             <td ng-bind-html="cand.postBody.text | highlight:cand"></td>
             <td>
-                <div ng-repeat="uri in cand.postBody.images"><img ng-src="{{uri}}"></div>
+                <md-radio-group ng-model="storage[cand.storageKey].imageSelectionIndex">
+                    <md-radio-button ng-repeat="uri in cand.postBody.images" ng-value="$index">
+                        <div><img ng-src="{{uri}}"></div>
+                    </md-radio-button>
+                    <!-- <md-radio-button ng-value="storage[cand.storageKey].customImageUrl">
+                        <div><img ng-src="{{storage[cand.storageKey].customImageUrl}}"></div>
+                    </md-radio-button> -->
+                </md-radio-group>
             </td>
             <td ng-class="{'missing-info': !storage[cand.storageKey].dollName}">
                 <md-input-container class="doll-name">

@@ -20,6 +20,7 @@ angular.module('tdfPollMakerApp')
                     var storageKey = uri + cand.postAuthor + cand.postBody.images[0];
                     cand.storageKey = storageKey;
                     $localStorage[storageKey] = $localStorage[storageKey] || {isIncluded: true};
+                    $localStorage[storageKey].imageSelectionIndex = $localStorage[storageKey].imageSelectionIndex || 0;
                     return cand;
                 });
             }).catch(function (error){
@@ -50,7 +51,7 @@ angular.module('tdfPollMakerApp')
 
         $scope.getBbCode = function(cand) {
             var nameCaption = $localStorage[cand.storageKey];
-            return '[center][list][size=140][color=#EFF7FB][*][*][*][*]*[/color][b][color=#FF00FF]'+trim(nameCaption.dollName)+'[/color] [color=#000000]in[/color] [color=#0040FF]"'+trim(nameCaption.caption)+'" [/color][/b][color=#EFF7FB][*]*[/color][i][color=#000000]by '+cand.postAuthor+'[/color][/i][/size][color=#EFF7FB][*]*[/color][color=#EFF7FB][*][img600]'+cand.postBody.images[0]+'[/img600][/color][/list][/center]';
+            return '[center][list][size=140][color=#EFF7FB][*][*][*][*]*[/color][b][color=#FF00FF]'+trim(nameCaption.dollName)+'[/color] [color=#000000]in[/color] [color=#0040FF]"'+trim(nameCaption.caption)+'" [/color][/b][color=#EFF7FB][*]*[/color][i][color=#000000]by '+cand.postAuthor+'[/color][/i][/size][color=#EFF7FB][*]*[/color][color=#EFF7FB][*][img600]'+cand.postBody.images[nameCaption.imageSelectionIndex]+'[/img600][/color][/list][/center]';
         };
 
         $scope.getAllBbCode = function() {
@@ -64,6 +65,16 @@ angular.module('tdfPollMakerApp')
  
             return text.trim();
         };
+
+        $scope.getNumEntries = ()=>{
+            if(!$scope.candidates){
+                return 0;
+            }
+
+            return $scope.candidates.filter((element)=>{
+                return $localStorage[element.storageKey].isIncluded;
+            }).length;
+        }
 
 
         //run code on page load
