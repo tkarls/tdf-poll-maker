@@ -51,9 +51,9 @@
             </td>
             <td ng-bind-html="cand.postBody.text | highlight:cand"></td>
             <td>
-                <md-radio-group ng-model="storage[cand.storageKey].imageSelectionIndex">
+                <md-radio-group ng-disabled="!storage[cand.storageKey].isIncluded" ng-model="storage[cand.storageKey].imageSelectionIndex">
                     <md-radio-button ng-repeat="uri in cand.postBody.images" ng-value="$index">
-                        <div><img ng-src="{{uri}}"></div>
+                        <div ng-class="{'not-an-entry': storage[cand.storageKey].imageSelectionIndex !== $index}"><img ng-src="{{uri}}"></div>
                     </md-radio-button>
                     <!-- <md-radio-button ng-value="storage[cand.storageKey].customImageUrl">
                         <div><img ng-src="{{storage[cand.storageKey].customImageUrl}}"></div>
