@@ -95,7 +95,7 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
         winners.forEach(function (winner){
             bbCode += '[size=' + (size[winner.place] || 150) + ']';
                 bbCode += 'In [color='+(color[winner.place] || '#000000')+']'+ (places[winner.place] || (place.toString() + ':th')) +' place[/color], with [b]'+ winner.votes +' votes[/b]\n';
-                bbCode+= '[b][color=#FF00FF]'+trim(winner.dollName)+'[/color][/b] in [color=#FF0000]'+trim(winner.caption) +'[/color]\n';
+                bbCode+= '[b][color=#FF00FF]'+trim(winner.dollName)+'[/color][/b] in [color=#FF0000]"'+trim(winner.caption) +'"[/color]\n';
                 bbCode+= 'by [i]'+trim(winner.contestant) +'[/i]\n';
                 bbCode+= '[img600]'+winner.imageUri+'[/img600]\n';
             bbCode += '[/size]\n\n\n\n\n\n'
