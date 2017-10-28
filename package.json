@@ -1,6 +1,6 @@
 {
   "name": "tdf-poll-maker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "The backend part of the tdf-poll-maker",
   "main": "index.js",
   "scripts": {
