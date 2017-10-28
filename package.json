@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "postinstall": "cd frontend && npm i && bower i && grunt --force",
+    "heroku-postbuild": "echo 'test' && cd frontend && npm i && bower i && grunt --force",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
