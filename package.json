@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "echo 'test' && cd frontend && npm i && bower i && grunt --force",
+    "heroku-postbuild": "cd frontend && npm i && bower i && grunt --force",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,10 +19,17 @@
   },
   "homepage": "https://github.com/tkarls/tdf-poll-maker#readme",
   "dependencies": {
+    "bower": "^1.8.2",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.1",
+    "grunt-cli": "^1.2.0",
     "moment": "^2.18.1",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5"
-  }
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "frontend/node_modules",
+    "frontend/bower_components"
+  ]
 }
