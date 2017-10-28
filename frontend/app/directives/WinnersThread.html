@@ -2,7 +2,7 @@
         <md-input-container>
             <label>Select your poll thread</label>
             <md-select
-                ng-model="storage.tdfUri"
+                ng-model="storage.pollUri"
                 aria-label="select the poll thread"
                 required >
                 <md-optgroup ng-repeat="month in months" label="{{month.name}}">
@@ -11,7 +11,7 @@
             </md-select>
         </md-input-container>
         <div>
-            <md-button class="md-primary md-raised" ng-click="loadWinners(storage.tdfUri)" ng-disabled="loadingWinners">Get the winners</md-button>
+            <md-button class="md-primary md-raised" ng-click="loadWinners(storage.pollUri)" ng-disabled="loadingWinners">Get the winners</md-button>
         </div>
     </div>
     <div ng-if="!months">
@@ -26,12 +26,12 @@
         <md-input-container>
             <label>Number of winners</label>
             <md-select
-                ng-model="numWinners"
+                ng-model="data.numWinners"
                 aria-label="select number of winners"
                 required >
-                    <md-option value="3">Top 3</md-option>
-                    <md-option value="5">Top 5</md-option>
-                    <md-option value="999999">All</md-option>
+                    <md-option ng-value="3">Top 3</md-option>
+                    <md-option ng-value="5">Top 5</md-option>
+                    <md-option ng-value="999999">All</md-option>
                 </md-optgroup>
             </md-select>
         </md-input-container>
@@ -39,50 +39,45 @@
         <table>
             <tr>
                 <th>Contestant</th>
-                <th>Doll name</th>
+                <th>Doll name(s)</th>
+                <th>Caption</th>
                 <th>Image</th>
                 <th>Number of votes</th>
             </tr>
-            <tr ng-repeat="winner in winners" class="winner">
+            <tr ng-repeat="winner in winners | limitTo: getNumumWinnersWithTies(numWinners)" class="winner">
                 <td>
-                    <md-checkbox ng-model="storage[cand.storageKey].isIncluded" aria-label="Check to include in output">
-                </td>
-                <td>
-                    {{cand.postAuthor}}
-                </td>
-                <td ng-bind-html="cand.postBody.text | highlight:cand"></td>
-                <td>
-                    <md-radio-group ng-disabled="!storage[cand.storageKey].isIncluded" ng-model="storage[cand.storageKey].imageSelectionIndex">
-                        <md-radio-button ng-repeat="uri in cand.postBody.images" ng-value="$index">
-                            <div ng-class="{'not-an-entry': storage[cand.storageKey].imageSelectionIndex !== $index}"><img ng-src="{{uri}}"></div>
-                        </md-radio-button>
-                        <!-- <md-radio-button ng-value="storage[cand.storageKey].customImageUrl">
-                            <div><img ng-src="{{storage[cand.storageKey].customImageUrl}}"></div>
-                        </md-radio-button> -->
-                    </md-radio-group>
-                </td>
-                <td ng-class="{'missing-info': !storage[cand.storageKey].dollName}">
-                    <md-input-container class="doll-name">
-                        <label>Enter the name of the doll(s)</label>
-                        <input ng-disabled="!storage[cand.storageKey].isIncluded" type="text" ng-model="storage[cand.storageKey].dollName">
-                    </md-input-container>
-                </td>
-                <td ng-class="{'missing-info': !storage[cand.storageKey].caption}">
                     <md-input-container>
-                        <label>Enter the caption</label>
-                        <input ng-disabled="!storage[cand.storageKey].isIncluded" type="text" ng-model="storage[cand.storageKey].caption">
-                        <md-tooltip>{{storage[cand.storageKey].caption || 'unknown'}}</md-tooltip>
+                        <label>Contestant</label>
+                        <input type="text" ng-model="winner.contestant">
                     </md-input-container>
+                </td>
+                <td>
+                    <md-input-container>
+                        <label>Doll name(s)</label>
+                        <input type="text" ng-model="winner.dollName">
+                    </md-input-container>
+                </td>
+                <td>
+                    <md-input-container>
+                        <label>Caption</label>
+                        <input type="text" ng-model="winner.caption">
+                    </md-input-container>
+                </td>
+                <td>
+                    <img ng-src="{{winner.imageUri}}">
+                </td>
+                <td>
+                    {{winner.votes}}
                 </td>
             </tr>
     
         </table>
     </div>
     
-    <div class="bb-code" ng-if="candidates">
-        <md-button ngclipboard data-clipboard-target="#all-bb-code">Copy to clipboard</md-button>
+    <div class="bb-code" ng-if="winners">
+        <md-button ngclipboard data-clipboard-target="#all-winner-bb-code">Copy to clipboard</md-button>
         <div>
-            <textarea readonly id="all-bb-code" ng-value="getAllBbCode()">
+            <textarea readonly id="all-winner-bb-code" ng-value="getAllWinnerBbCode()">
             </textarea>
         </div>
     </div>
