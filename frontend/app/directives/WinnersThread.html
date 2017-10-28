@@ -1,0 +1,88 @@
+<div layout="column" ng-if="months">
+        <md-input-container>
+            <label>Select your poll thread</label>
+            <md-select
+                ng-model="storage.tdfUri"
+                aria-label="select the poll thread"
+                required >
+                <md-optgroup ng-repeat="month in months" label="{{month.name}}">
+                    <md-option ng-repeat="thread in month.threads" ng-value="thread.uri">{{thread.name}}</md-option>
+                </md-optgroup>
+            </md-select>
+        </md-input-container>
+        <div>
+            <md-button class="md-primary md-raised" ng-click="loadWinners(storage.tdfUri)" ng-disabled="loadingWinners">Get the winners</md-button>
+        </div>
+    </div>
+    <div ng-if="!months">
+        <p>Loading poll threads...</p>
+    </div>
+    
+    
+    <div ng-if="loadingWinners">
+        <p>Loading thread data...</p>
+    </div>
+    <div class="winner-list" ng-if="winners">
+        <md-input-container>
+            <label>Number of winners</label>
+            <md-select
+                ng-model="numWinners"
+                aria-label="select number of winners"
+                required >
+                    <md-option value="3">Top 3</md-option>
+                    <md-option value="5">Top 5</md-option>
+                    <md-option value="999999">All</md-option>
+                </md-optgroup>
+            </md-select>
+        </md-input-container>
+        
+        <table>
+            <tr>
+                <th>Contestant</th>
+                <th>Doll name</th>
+                <th>Image</th>
+                <th>Number of votes</th>
+            </tr>
+            <tr ng-repeat="winner in winners" class="winner">
+                <td>
+                    <md-checkbox ng-model="storage[cand.storageKey].isIncluded" aria-label="Check to include in output">
+                </td>
+                <td>
+                    {{cand.postAuthor}}
+                </td>
+                <td ng-bind-html="cand.postBody.text | highlight:cand"></td>
+                <td>
+                    <md-radio-group ng-disabled="!storage[cand.storageKey].isIncluded" ng-model="storage[cand.storageKey].imageSelectionIndex">
+                        <md-radio-button ng-repeat="uri in cand.postBody.images" ng-value="$index">
+                            <div ng-class="{'not-an-entry': storage[cand.storageKey].imageSelectionIndex !== $index}"><img ng-src="{{uri}}"></div>
+                        </md-radio-button>
+                        <!-- <md-radio-button ng-value="storage[cand.storageKey].customImageUrl">
+                            <div><img ng-src="{{storage[cand.storageKey].customImageUrl}}"></div>
+                        </md-radio-button> -->
+                    </md-radio-group>
+                </td>
+                <td ng-class="{'missing-info': !storage[cand.storageKey].dollName}">
+                    <md-input-container class="doll-name">
+                        <label>Enter the name of the doll(s)</label>
+                        <input ng-disabled="!storage[cand.storageKey].isIncluded" type="text" ng-model="storage[cand.storageKey].dollName">
+                    </md-input-container>
+                </td>
+                <td ng-class="{'missing-info': !storage[cand.storageKey].caption}">
+                    <md-input-container>
+                        <label>Enter the caption</label>
+                        <input ng-disabled="!storage[cand.storageKey].isIncluded" type="text" ng-model="storage[cand.storageKey].caption">
+                        <md-tooltip>{{storage[cand.storageKey].caption || 'unknown'}}</md-tooltip>
+                    </md-input-container>
+                </td>
+            </tr>
+    
+        </table>
+    </div>
+    
+    <div class="bb-code" ng-if="candidates">
+        <md-button ngclipboard data-clipboard-target="#all-bb-code">Copy to clipboard</md-button>
+        <div>
+            <textarea readonly id="all-bb-code" ng-value="getAllBbCode()">
+            </textarea>
+        </div>
+    </div>

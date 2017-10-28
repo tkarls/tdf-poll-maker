@@ -10,7 +10,16 @@ app.use(bodyParser.json());
 app.use(express.static('./frontend/dist'))
 
 app.post('/api/parse/forum-page', function (req, res) {
-    parseForumThreadList().then((threads) => {
+    parseForumThreadList({}).then((threads) => {
+        return res.json(threads);
+    }).catch((error)=>{
+        console.log(error);
+        return res.status(500).json(error);
+    });
+});
+
+app.post('/api/parse/forum-polls', function (req, res) {
+    parseForumThreadList({polls:true}).then((threads) => {
         return res.json(threads);
     }).catch((error)=>{
         console.log(error);
@@ -54,6 +63,42 @@ app.post('/api/parse/entry-thread', function (req, res) {
         return res.status(500).json(error);
     });
 });
+
+app.post('/api/parse/poll-thread', function (req, res) {
+    var uri = req.body.threadUri;
+
+    getWinners(uri).then((winners)=>{
+        return res.json(winners);
+    }).catch((error) => {
+        console.log(error);
+        return res.status(500).json(error);
+    });
+});
+
+function getWinners(uri){
+    return rp(uri).then((html)=>{
+        const $ = cheerio.load(html);
+        var rawEntries = []
+        var entries = [];
+
+        $('td.pollbg table table tbody tr').each((i, element)=>{
+            var text = $(element).first().text().trim();
+            var parsed = text.match(/^\*(.+)in(.+)\*by(.+)\*/);
+
+            entries[i] = {
+                dollName: (parsed[1] || '').trim(),
+                caption: (parsed[2] || '').trim(),
+                contestant: (parsed[3] || '').trim(),
+                imageUri: $(element).find('a img').first().attr('src'),
+                votes: parseInt(text.match(/\[(\d+)\]$/)[1] || 0)
+            }
+        });
+
+        return entries.sort((a, b)=>{
+            return b.votes - a.votes;
+        });
+    });
+}
 
 function getInfo(uri, pageIndex){
     return rp(uri).then((html)=>{
@@ -114,7 +159,7 @@ function getInfo(uri, pageIndex){
     });
 }
 
-function parseForumThreadList(){
+function parseForumThreadList(options){
     return rp('http://dollforum.com/forum/viewforum.php?f=119').then((html)=>{
         const $ = cheerio.load(html);
         var threadTitles = $('a.treadtitle, a.tunreadtitle');
@@ -130,11 +175,12 @@ function parseForumThreadList(){
             
         });
 
-        return getContestThreads(threads);
+        options.threads = threads;
+        return getContestThreads(options);
     });
 }
 
-function getContestThreads(threads) {
+function getContestThreads(options) {
     //support up to 3 months back
     var now = moment();
     var months = [
@@ -155,21 +201,29 @@ function getContestThreads(threads) {
     return months.map((month)=>{
         return {
             name: month.full,
-            threads: (getThreadsForMonth(month.abbr, threads))
+            threads: (getThreadsForMonth(month.abbr, options))
         }
     });
 }
 
-function getThreadsForMonth(month, threads){
-    var candidates = threads.filter((t)=> {
+function getThreadsForMonth(month, options){
+    var candidates = options.threads.filter((t)=> {
         var regex = new RegExp(month,'i');
         return t.name.match(regex) && t.name.match(/cat(egory)?/i);
     });
 
-    //exclude voting booth and winners thread
-    candidates = candidates.filter((t)=>{
-        return !t.name.match(/voting/i) && !t.name.match(/winner/i);
-    });
+    if(options.polls === true){
+        //keep voting booth only
+        candidates = candidates.filter((t)=>{
+            return t.name.match(/voting/i);
+        });
+    }
+    else{
+        //exclude voting booth and winners thread
+        candidates = candidates.filter((t)=>{
+            return !t.name.match(/voting/i) && !t.name.match(/winner/i);
+        });
+    }
 
     return candidates;
 }
@@ -177,6 +231,6 @@ function getThreadsForMonth(month, threads){
 http.listen(process.env.PORT || 5000);
 
 
-
 //getInfo('http://dollforum.com/forum/viewtopic.php?f=119&t=89537&start=75');
-//parseForumThreadList();
+//getWinners('https://dollforum.com/forum/viewtopic.php?f=119&t=91988');
+//parseForumThreadList({polls:true});
