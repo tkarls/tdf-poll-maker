@@ -32,7 +32,7 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
         }).catch(function (error){
             $log.error(error);
         }).then(function (){});
-    };
+    }
 
     $scope.getNumumWinnersWithTies = function () {
         if(!$scope.winners){
@@ -44,7 +44,7 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
         var lastVotes = 0;
         var place = 0;
         $scope.winners.forEach(function(winner){
-            if(lastVotes != winner.votes){
+            if(lastVotes !== winner.votes){
                 numPlaces--;
                 place++;
             }
@@ -94,11 +94,11 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
         var bbCode = '[center]\n';
         winners.forEach(function (winner){
             bbCode += '[size=' + (size[winner.place] || 150) + ']';
-                bbCode += 'In [color='+(color[winner.place] || '#000000')+']'+ (places[winner.place] || (place.toString() + ':th')) +' place[/color], with [b]'+ winner.votes +' votes[/b]\n';
+                bbCode += 'In [color='+(color[winner.place] || '#000000')+']'+ (places[winner.place] || (winner.place.toString() + ':th')) +' place[/color], with [b]'+ winner.votes +' votes[/b]\n';
                 bbCode+= '[b][color=#FF00FF]'+trim(winner.dollName)+'[/color][/b] in [color=#FF0000]"'+trim(winner.caption) +'"[/color]\n';
                 bbCode+= 'by [i]'+trim(winner.contestant) +'[/i]\n';
                 bbCode+= '[img600]'+winner.imageUri+'[/img600]\n';
-            bbCode += '[/size]\n\n\n\n\n\n'
+            bbCode += '[/size]\n\n\n\n\n\n';
 
         });
 
@@ -126,4 +126,4 @@ function winnersThread(){
 }
 
 angular.module('tdfPollMakerApp')
-    .directive('winnersThread', winnersThread)
+    .directive('winnersThread', winnersThread);
