@@ -114,7 +114,7 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
 
 function winnersThread(){
     var directive = {
-        templateUrl: 'directives/winnersThread.html',
+        templateUrl: 'views/winnersThread.html',
         restrict: 'EA',
         scope: {
         },

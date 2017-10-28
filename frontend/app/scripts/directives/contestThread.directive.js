@@ -75,7 +75,7 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log){
 
 function contestThread(){
     var directive = {
-        templateUrl: 'directives/contestThread.html',
+        templateUrl: 'views/contestThread.html',
         restrict: 'EA',
         scope: {
         },
