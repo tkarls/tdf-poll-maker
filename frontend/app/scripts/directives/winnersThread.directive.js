@@ -113,7 +113,7 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
 }
 
 function winnersThread(){
-    var directive = {
+    return {
         templateUrl: 'views/winnersThread.html',
         restrict: 'EA',
         scope: {
@@ -122,7 +122,6 @@ function winnersThread(){
         controllerAs: 'vm',
         bindToController: true
     };
-    return directive;
 }
 
 angular.module('tdfPollMakerApp')

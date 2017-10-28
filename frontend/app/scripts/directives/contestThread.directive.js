@@ -74,7 +74,7 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log){
 }
 
 function contestThread(){
-    var directive = {
+    return {
         templateUrl: 'views/contestThread.html',
         restrict: 'EA',
         scope: {
@@ -83,7 +83,6 @@ function contestThread(){
         controllerAs: 'vm',
         bindToController: true
     };
-    return directive;
 }
 
 angular.module('tdfPollMakerApp')
