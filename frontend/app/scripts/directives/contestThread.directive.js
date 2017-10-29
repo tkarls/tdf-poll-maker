@@ -69,6 +69,17 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log){
         }).length;
     };
 
+    $scope.getNumEntriesWithMissingInfo = function() {
+        if(!$scope.candidates){
+            return 0;
+        }
+
+        return $scope.candidates.filter( function (element) {
+            var storage = $localStorage[element.storageKey];
+            return storage.isIncluded && (!storage.caption || !storage.dollName);
+        }).length;
+    };
+
     $scope.resetCand = function (){
         $scope.candidates = null;
     };

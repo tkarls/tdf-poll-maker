@@ -90,10 +90,14 @@
     </div>
     
     <div class="bb-code" ng-if="candidates">
-        <md-button ngclipboard data-clipboard-target="#all-bb-code">
-            Copy to clipboard
-            <md-tooltip>After clicking the button you should paste (normally ctrl+v) the data into the poll options field</md-tooltip>
-        </md-button>
+        <div>
+            <md-button ng-disabled="getNumEntriesWithMissingInfo() > 0" ngclipboard data-clipboard-target="#all-bb-code">
+                Copy to clipboard
+                <md-tooltip>After clicking the button you should paste (normally ctrl+v) the data into the poll options field</md-tooltip>
+            </md-button>
+            <md-tooltip ng-if="getNumEntriesWithMissingInfo() > 0">Button will be enabled when all entries have their info submitted</md-tooltip>
+        </div>
+        <p class="error" ng-if="getNumEntriesWithMissingInfo() > 0">There are {{getNumEntriesWithMissingInfo()}} entries with missing info. Correct that before copying the BB code!</p>
         <div>
             <textarea readonly id="all-bb-code" ng-value="getAllBbCode()">
             </textarea>
