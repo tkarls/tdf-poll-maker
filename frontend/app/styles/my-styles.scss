@@ -66,3 +66,13 @@ md-select{
     padding: 5px;
     text-align: center;
 }
+
+.limit-image{
+    img{
+        max-width: 100px !important;
+    }
+}
+
+md-tabs.no-animate md-tab-content, md-tabs.no-animate md-ink-bar {
+    transition: none;
+}

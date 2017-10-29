@@ -38,7 +38,7 @@
             <tr>
                 <th>Entry?</th>
                 <th>Contestant</th>
-                <th>Text</th>
+                <th>Post body</th>
                 <th>Image(s)</th>
                 <th>Doll name</th>
                 <th>Caption</th>
@@ -54,7 +54,16 @@
                 <td>
                     {{cand.postAuthor}}
                 </td>
-                <td ng-bind-html="cand.postBody.text | highlight:cand"></td>
+                <td>
+                    <md-tabs md-selected="selectedSubTab" class="no-animate">
+                        <md-tab label="Text only">
+                            <div ng-bind-html="cand.postBody.text | highlight:cand"></div>
+                        </md-tab>
+                        <<md-tab label="Full view">
+                                <div ng-if="selectedSubTab === 1" class="limit-image" ng-bind-html="cand.postBody.html"></div>
+                        </md-tab>
+                    </md-tabs>
+                </td>
                 <td>
                     <div ng-if="cand.postBody.images.length > 1">
                         <md-radio-group ng-disabled="!storage[cand.storageKey].isIncluded" ng-model="storage[cand.storageKey].imageSelectionIndex">

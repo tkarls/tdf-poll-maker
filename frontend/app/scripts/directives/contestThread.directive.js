@@ -1,6 +1,6 @@
 'use strict';
 
-function ContestThreadController($http, $scope, $localStorage, $timeout, $log){
+function ContestThreadController($http, $scope, $localStorage, $timeout, $log, $sce){
  
     $scope.storage = $localStorage;
 
@@ -14,6 +14,7 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log){
                 cand.storageKey = storageKey;
                 $localStorage[storageKey] = $localStorage[storageKey] || {isIncluded: true};
                 $localStorage[storageKey].imageSelectionIndex = $localStorage[storageKey].imageSelectionIndex || 0;
+                cand.postBody.html = $sce.trustAsHtml(cand.postBody.html.replace(/\.\//g, 'https://dollforum.com/forum/'));
                 return cand;
             });
         }).catch(function (error){
