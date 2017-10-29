@@ -3,6 +3,7 @@
             <label>Select your contest thread</label>
             <md-select
                 ng-model="storage.tdfUri"
+                ng-change="resetCand()"
                 aria-label="select the contest thread"
                 required >
                 <md-optgroup ng-repeat="month in months" label="{{month.name}}">
@@ -44,33 +45,43 @@
             </tr>
             <tr ng-repeat="cand in candidates" class="entry" ng-class="{'not-an-entry': storage[cand.storageKey].isIncluded === false}">
                 <td>
-                    <md-checkbox ng-model="storage[cand.storageKey].isIncluded" aria-label="Check to include in output">
+                    <div>
+                        <md-checkbox ng-model="storage[cand.storageKey].isIncluded" aria-label="Check to include in output">
+                        </md-checkbox>
+                        <md-tooltip>When checked the candidate will be included in the poll. Uncheck to remove false entries.</md-tooltip>
+                    </div>
                 </td>
                 <td>
                     {{cand.postAuthor}}
                 </td>
                 <td ng-bind-html="cand.postBody.text | highlight:cand"></td>
                 <td>
-                    <md-radio-group ng-disabled="!storage[cand.storageKey].isIncluded" ng-model="storage[cand.storageKey].imageSelectionIndex">
-                        <md-radio-button ng-repeat="uri in cand.postBody.images" ng-value="$index">
-                            <div ng-class="{'not-an-entry': storage[cand.storageKey].imageSelectionIndex !== $index}"><img ng-src="{{uri}}"></div>
-                        </md-radio-button>
-                        <!-- <md-radio-button ng-value="storage[cand.storageKey].customImageUrl">
-                            <div><img ng-src="{{storage[cand.storageKey].customImageUrl}}"></div>
-                        </md-radio-button> -->
-                    </md-radio-group>
+                    <div ng-if="cand.postBody.images.length > 1">
+                        <md-radio-group ng-disabled="!storage[cand.storageKey].isIncluded" ng-model="storage[cand.storageKey].imageSelectionIndex">
+                            <md-radio-button ng-repeat="uri in cand.postBody.images" ng-value="$index">
+                                <div ng-class="{'not-an-entry': storage[cand.storageKey].imageSelectionIndex !== $index}"><img ng-src="{{uri}}"></div>
+                            </md-radio-button>
+                        </md-radio-group>
+                        <md-tooltip ng-if="storage[cand.storageKey].isIncluded">There are multiple images in the post. Select the one to include in the poll</md-tooltip>
+                    </div>
+                    <div ng-if="cand.postBody.images.length === 1" class="single-image">
+                        <img ng-src="{{cand.postBody.images[0]}}">
+                    </div>
                 </td>
                 <td ng-class="{'missing-info': !storage[cand.storageKey].dollName}">
                     <md-input-container class="doll-name">
                         <label>Enter the name of the doll(s)</label>
                         <input ng-disabled="!storage[cand.storageKey].isIncluded" type="text" ng-model="storage[cand.storageKey].dollName">
+                        <md-tooltip ng-if="!storage[cand.storageKey].dollName && storage[cand.storageKey].isIncluded">The script failed to automatically identify the name of the doll(s). Please enter the name(s) manually.</md-tooltip>
+                        <md-tooltip ng-if="storage[cand.storageKey].dollName && storage[cand.storageKey].isIncluded">{{storage[cand.storageKey].dollName || 'unknown'}}</md-tooltip>
                     </md-input-container>
                 </td>
                 <td ng-class="{'missing-info': !storage[cand.storageKey].caption}">
                     <md-input-container>
                         <label>Enter the caption</label>
                         <input ng-disabled="!storage[cand.storageKey].isIncluded" type="text" ng-model="storage[cand.storageKey].caption">
-                        <md-tooltip>{{storage[cand.storageKey].caption || 'unknown'}}</md-tooltip>
+                        <md-tooltip ng-if="!storage[cand.storageKey].caption && storage[cand.storageKey].isIncluded">The script failed to automatically identify the image caption. Please enter the caption manually.</md-tooltip>
+                        <md-tooltip ng-if="storage[cand.storageKey].caption && storage[cand.storageKey].isIncluded">{{storage[cand.storageKey].caption || 'unknown'}}</md-tooltip>
                     </md-input-container>
                 </td>
             </tr>
@@ -79,7 +90,10 @@
     </div>
     
     <div class="bb-code" ng-if="candidates">
-        <md-button ngclipboard data-clipboard-target="#all-bb-code">Copy to clipboard</md-button>
+        <md-button ngclipboard data-clipboard-target="#all-bb-code">
+            Copy to clipboard
+            <md-tooltip>After clicking the button you should paste (normally ctrl+v) the data into the poll options field</md-tooltip>
+        </md-button>
         <div>
             <textarea readonly id="all-bb-code" ng-value="getAllBbCode()">
             </textarea>

@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngMaterial',
     'ngclipboard',
-    'ngStorage'
+    'ngStorage',
+    'angular-loading-bar'
   ])
   .config(function ($routeProvider) {
     $routeProvider

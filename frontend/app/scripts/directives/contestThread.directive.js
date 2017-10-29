@@ -6,6 +6,7 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log){
 
     $scope.loadCandidates = function(uri) {
         $scope.loadingCandidates = true;
+        $scope.candidates = null;
         return $http.post('/api/parse/entry-thread', {threadUri: uri}).then( function (result) {
             
             $scope.candidates = result.data.map( function (cand) {
@@ -68,6 +69,9 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log){
         }).length;
     };
 
+    $scope.resetCand = function (){
+        $scope.candidates = null;
+    }
 
     //run code on page load
     loadThreads();

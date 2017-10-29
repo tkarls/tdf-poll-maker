@@ -8,5 +8,6 @@
  * Controller of the tdfPollMakerApp
  */
 angular.module('tdfPollMakerApp')
-    .controller('MainCtrl', function () {        
+    .controller('MainCtrl', function ($scope, $localStorage) {
+        $scope.storage = $localStorage;    
     });
