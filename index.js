@@ -83,7 +83,7 @@ function getWinners(uri){
 
         $('td.pollbg table table tbody tr').each((i, element)=>{
             var text = $(element).first().text().trim();
-            var parsed = text.match(/^\*?(.+?) in (.+?)\*?by(.+?)\*?\s/) || [];
+            var parsed = text.match(/^\*?(.+?) in (.+?)\*?by(.+?)\*?\s\s\s/) || [];
 
             entries[i] = {
                 dollName: (parsed[1] || '').trim(),
