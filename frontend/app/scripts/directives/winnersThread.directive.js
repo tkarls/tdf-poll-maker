@@ -79,8 +79,8 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log, $
 
         var size = {
             1: 200,
-            2: 180,
-            3: 160,
+            2: 160,
+            3: 140,
         };
 
         var color = {
@@ -93,7 +93,7 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log, $
 
         var bbCode = '[center]\n';
         winners.forEach(function (winner){
-            bbCode += '[size=' + (size[winner.place] || 150) + ']';
+            bbCode += '[size=' + (size[winner.place] || 130) + ']';
                 bbCode += 'In [color='+(color[winner.place] || '#000000')+']'+ (places[winner.place] || (winner.place.toString() + ':th')) +' place[/color], with [b]'+ winner.votes +' votes[/b]\n';
                 bbCode+= '[b][color=#FF00FF]'+trim(winner.dollName)+'[/color][/b] in [color=#FF0000]"'+trim(winner.caption) +'"[/color]\n';
                 bbCode+= 'by [i]'+trim(winner.contestant) +'[/i]\n';
@@ -109,11 +109,11 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log, $
     };
 
     var bbParser = window.XBBCODE;
-    var tags = bbParser.tags()
+    var tags = bbParser.tags();
     var newTags = {
         img600: tags.img,
         size: {
-            openTag: function(params,content) {
+            openTag: function(params) {
                 params = params || '';
 
                 var mySize = parseInt(params.substr(1),10) || 0;
@@ -126,7 +126,7 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log, $
 
                 return '<span style="font-size:' + mySize + '%">';
             },
-            closeTag: function(params,content) {
+            closeTag: function() {
                 return '</span>';
             }
         }
