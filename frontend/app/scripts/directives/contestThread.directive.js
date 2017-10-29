@@ -71,7 +71,7 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log){
 
     $scope.resetCand = function (){
         $scope.candidates = null;
-    }
+    };
 
     //run code on page load
     loadThreads();
