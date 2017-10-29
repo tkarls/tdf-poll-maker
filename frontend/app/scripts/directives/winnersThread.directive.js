@@ -1,6 +1,6 @@
 'use strict';
 
-function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
+function WinnersThreadController($http, $scope, $localStorage, $timeout, $log, $sce){
  
     $scope.storage = $localStorage;
 
@@ -84,7 +84,7 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
         };
 
         var color = {
-            1: '#FBDB21',
+            1: '#CCB200',
             2: '#919191',
             3: '#DA7726'
         };
@@ -106,6 +106,41 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log){
         bbCode+='[/center]';
 
         return bbCode;
+    };
+
+    var bbParser = window.XBBCODE;
+    var tags = bbParser.tags()
+    var newTags = {
+        img600: tags.img,
+        size: {
+            openTag: function(params,content) {
+                params = params || '';
+
+                var mySize = parseInt(params.substr(1),10) || 0;
+                if (mySize < 50){
+                    mySize = 50;
+                }
+                if(mySize > 200){
+                    mySize = 200;
+                }
+
+                return '<span style="font-size:' + mySize + '%">';
+            },
+            closeTag: function(params,content) {
+                return '</span>';
+            }
+        }
+    };
+    bbParser.addTags(newTags);
+
+    $scope.getAllWinnerHtmlCode = function () {
+        var res = bbParser.process({
+            text: $scope.getAllWinnerBbCode(),
+            removeMisalignedTags: false,
+            addInLineBreaks: true
+        });
+
+        return $sce.trustAsHtml(res.html);
     };
 
     //run code on page load

@@ -80,12 +80,19 @@
     </div>
     
     <div class="bb-code" ng-if="winners">
-        <md-button ngclipboard data-clipboard-target="#all-winner-bb-code">
-            Copy to clipboard
-            <md-tooltip>After clicking the button you should paste (normally ctrl+v) the data into the body of your post</md-tooltip>
-        </md-button>
         <div>
-            <textarea readonly id="all-winner-bb-code" ng-value="getAllWinnerBbCode()">
-            </textarea>
+            <md-tabs class="no-animate">
+                <md-tab label="BB code">
+                    <md-button ngclipboard data-clipboard-target="#all-winner-bb-code">
+                        Copy BB code to clipboard
+                        <md-tooltip>After clicking the button you should paste (normally ctrl+v) the data into the body of your post</md-tooltip>
+                    </md-button>
+                    <textarea readonly id="all-winner-bb-code" ng-value="getAllWinnerBbCode()">
+                    </textarea>
+                </md-tab>
+                <md-tab label="preview">
+                    <div class="tdf-preview" ng-bind-html="getAllWinnerHtmlCode()"></div>
+                </md-tab>
+            </md-tabs>
         </div>
     </div>

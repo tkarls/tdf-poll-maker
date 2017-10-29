@@ -34,6 +34,7 @@ module.exports = function(config) {
       'bower_components/ngclipboard/dist/ngclipboard.js',
       'bower_components/ngstorage/ngStorage.js',
       'bower_components/angular-loading-bar/build/loading-bar.js',
+      'bower_components/xbbcode-parser/xbbcode.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

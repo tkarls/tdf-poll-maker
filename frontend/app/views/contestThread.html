@@ -101,7 +101,7 @@
     <div class="bb-code" ng-if="candidates">
         <div>
             <md-button ng-disabled="getNumEntriesWithMissingInfo() > 0" ngclipboard data-clipboard-target="#all-bb-code">
-                Copy to clipboard
+                Copy BB code to clipboard
                 <md-tooltip>After clicking the button you should paste (normally ctrl+v) the data into the poll options field</md-tooltip>
             </md-button>
             <md-tooltip ng-if="getNumEntriesWithMissingInfo() > 0">Button will be enabled when all entries have their info submitted</md-tooltip>
