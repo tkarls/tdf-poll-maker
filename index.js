@@ -215,13 +215,13 @@ function getThreadsForMonth(month, options){
     if(options.polls === true){
         //keep voting booth only
         candidates = candidates.filter((t)=>{
-            return t.name.match(/voting/i);
+            return t.name.match(/vot(e|ing)/i);
         });
     }
     else{
         //exclude voting booth and winners thread
         candidates = candidates.filter((t)=>{
-            return !t.name.match(/voting/i) && !t.name.match(/winner/i);
+            return !t.name.match(/vot(e|ing)/i) && !t.name.match(/winner/i);
         });
     }
 
