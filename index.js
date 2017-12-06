@@ -209,7 +209,7 @@ function getContestThreads(options) {
 function getThreadsForMonth(month, options){
     var candidates = options.threads.filter((t)=> {
         var regex = new RegExp(month,'i');
-        return t.name.match(regex) && t.name.match(/cat(egory)?/i);
+        return t.name.match(regex) && (t.name.match(/cat(egory)?/i) || t.name.match(/challenge\s[A-E]/i));
     });
 
     if(options.polls === true){
