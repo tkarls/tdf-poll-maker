@@ -105,7 +105,7 @@ angular.module('tdfPollMakerApp')
     .directive('contestThread', contestThread)
     .filter('highlight', function($sce, $localStorage) {
         return function(text, cand) {
-            var regex = new RegExp(/((?:[A-Z][a-zA-Z_\-0-9]+ )?(?:[A-Z][a-zA-Z_\-0-9]+ and )?[A-Z][a-zA-Z_\-0-9]+) (?:i|I)n.{0,4}(?:"|'')([a-zA-Z0-9!?.,' -_~]+)(?:"|'')/);
+            var regex = new RegExp(/((?:[A-Z][a-zA-Z_\-0-9]+,? )?(?:[A-Z][a-zA-Z_\-0-9]+ and )?[A-Z][a-zA-Z_\-0-9]+) (?:i|I)n.{0,4}(?:"|'')([a-zA-Z0-9!?.,' -_~]+)(?:"|'')/);
             
             var match = text.match(regex);
             if(match){
