@@ -29,13 +29,14 @@ app.post('/api/parse/forum-polls', function (req, res) {
 
 app.post('/api/parse/entry-thread', function (req, res) {
     var uri = req.body.threadUri;
+    var significantUriPart = uri.substring(uri.indexOf('viewtopic.php?f=')+15).replace('&', '&amp;')
     var start = 0;
 
     rp(uri).then((html)=>{
         var higestsStart = 0;
         for(let i = 0; i < 1000; i += 15){
-            var test = '&amp;start='+i+'">';
-            if(html.includes(test)){
+            var match = new RegExp (significantUriPart + '&amp;(sid=[a-z0-9]+&amp;)?' + 'start='+i+'">');
+            if(html.match(match)){
                 higestsStart = i;
             }
         }
