@@ -99,16 +99,56 @@
     </div>
     
     <div class="bb-code" ng-if="candidates">
+        
+        <table>
+            <tr>
+                <td>Doll name color:</td>
+                <td><color-picker ng-model="color.dollColor" options="colorOptions"></color-picker></td>
+            </tr>
+            <tr>
+                <td>Caption color:</td>
+                <td><color-picker ng-model="color.captionColor" options="colorOptions"></color-picker></td>
+            </tr>
+        </table>
+                
         <div>
-            <md-button ng-disabled="getNumEntriesWithMissingInfo() > 0" ngclipboard data-clipboard-target="#all-bb-code">
-                Copy BB code to clipboard
-                <md-tooltip>After clicking the button you should paste (normally ctrl+v) the data into the poll options field</md-tooltip>
-            </md-button>
-            <md-tooltip ng-if="getNumEntriesWithMissingInfo() > 0">Button will be enabled when all entries have their info submitted</md-tooltip>
-        </div>
-        <p class="error" ng-if="getNumEntriesWithMissingInfo() > 0">There are {{getNumEntriesWithMissingInfo()}} entries with missing info. Correct that before copying the BB code!</p>
-        <div>
-            <textarea readonly id="all-bb-code" ng-value="getAllBbCode()">
-            </textarea>
+            <md-tabs md-dynamic-height class="no-animate">
+                <md-tab label="BB code">
+                    <md-button ng-disabled="getNumEntriesWithMissingInfo() > 0" ngclipboard data-clipboard-target="#all-bb-code">
+                        Copy BB code to clipboard
+                        <md-tooltip>After clicking the button you should paste (normally ctrl+v) the data into the poll options field</md-tooltip>
+                    </md-button>
+                    <md-tooltip ng-if="getNumEntriesWithMissingInfo() > 0">Button will be enabled when all entries have their info submitted</md-tooltip>
+                    
+                    <p class="error" ng-if="getNumEntriesWithMissingInfo() > 0">There are {{getNumEntriesWithMissingInfo()}} entries with missing info. Correct that before copying the BB code!</p>
+                    <div>
+                        <textarea readonly id="all-bb-code" ng-value="getAllBbCode()">
+                        </textarea>
+                    </div>
+                </md-tab>
+                <md-tab label="preview">
+                    <div class="tdf-preview">
+                        <div ng-repeat="c in candidates" ng-init="data = storage[c.storageKey]" layout="row">
+                            <div flex=""></div>
+                            <div ng-if="data.isIncluded" class="entry">
+                                <div layout="row">
+                                    <div flex=""></div>
+                                    <div class="dollName" ng-style="{color:color.dollColor}">{{data.dollName || 'unknown'}}&nbsp;</div>
+                                    <div>in&nbsp;</div>
+                                    <div class="dollCaption" ng-style="{color:color.captionColor}">"{{data.caption || 'unknown'}}"</div>
+                                    <div flex=""></div>
+                                </div>
+                                <div layout="row">
+                                    <div flex=""></div>
+                                    <div>by {{c.postAuthor}}</div>
+                                    <div flex=""></div>
+                                </div>
+                                <img ng-src="{{c.postBody.images[data.imageSelectionIndex]}}">
+                            </div>
+                            <div flex=""></div>
+                        </div>                        
+                    </div>
+                </md-tab>
+            </md-tabs>
         </div>
     </div>

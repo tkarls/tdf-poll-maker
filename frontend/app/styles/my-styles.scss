@@ -40,6 +40,13 @@ th, td {
         white-space: pre;
         min-height: 500px;
     }
+
+    table {
+        width: auto;
+    }
+    td {
+        border: none;
+    }
 }
 
 .candidate-list{
@@ -85,5 +92,13 @@ md-tabs.no-animate md-tab-content, md-tabs.no-animate md-ink-bar {
     img {
         max-width: 600px;
         border: 5px solid black;
+    }
+
+    .entry{
+        margin-top: 50px;
+    }
+
+    .dollName, .dollCaption {
+        font-size: large;
     }
 }

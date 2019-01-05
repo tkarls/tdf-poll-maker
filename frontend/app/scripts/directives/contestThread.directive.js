@@ -43,9 +43,20 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log, $
         return 'unknown';
     };
 
+    $scope.color = {
+        dollColor: '#FF00FF',
+        captionColor: '#0040FF'
+    };
+
+    $scope.colorOptions = {
+        format: 'hexString',
+        alpha: false,
+        case: 'upper'
+    };
+
     $scope.getBbCode = function(cand) {
         var nameCaption = $localStorage[cand.storageKey];
-        return '[center][list][size=140][color=#EFF7FB][*][*][*][*]*[/color][b][color=#FF00FF]'+trim(nameCaption.dollName)+'[/color] [color=#000000]in[/color] [color=#0040FF]"'+trim(nameCaption.caption)+'" [/color][/b][color=#EFF7FB][*]*[/color][i][color=#000000]by '+cand.postAuthor+'[/color][/i][/size][color=#EFF7FB][*]*[/color][color=#EFF7FB][*][img600]'+cand.postBody.images[nameCaption.imageSelectionIndex]+'[/img600][/color][/list][/center]';
+        return '[center][list][size=140][color=#EFF7FB][*][*][*][*]*[/color][b][color='+$scope.color.dollColor+']'+trim(nameCaption.dollName)+'[/color] [color=#000000]in[/color] [color='+$scope.color.captionColor+']"'+trim(nameCaption.caption)+'" [/color][/b][color=#EFF7FB][*]*[/color][i][color=#000000]by '+cand.postAuthor+'[/color][/i][/size][color=#EFF7FB][*]*[/color][color=#EFF7FB][*][img600]'+cand.postBody.images[nameCaption.imageSelectionIndex]+'[/img600][/color][/list][/center]';
     };
 
     $scope.getAllBbCode = function() {
@@ -59,6 +70,7 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log, $
 
         return text.trim();
     };
+    
 
     $scope.getNumEntries = function() {
         if(!$scope.candidates){

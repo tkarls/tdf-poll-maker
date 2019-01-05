@@ -18,7 +18,8 @@ angular
     'ngMaterial',
     'ngclipboard',
     'ngStorage',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    'color.picker'
   ])
   .config(function ($routeProvider) {
     $routeProvider
