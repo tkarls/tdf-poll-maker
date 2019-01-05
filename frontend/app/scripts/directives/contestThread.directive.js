@@ -10,7 +10,7 @@ function ContestThreadController($http, $scope, $localStorage, $timeout, $log, $
         return $http.post('/api/parse/entry-thread', {threadUri: uri}).then( function (result) {
             
             $scope.candidates = result.data.map( function (cand) {
-                var storageKey = uri + cand.postAuthor + cand.postBody.images[0];
+                var storageKey = uri + cand.postAuthor + cand.postBody.images[0] + sha1(cand.postBody.text);
                 cand.storageKey = storageKey;
                 $localStorage[storageKey] = $localStorage[storageKey] || {isIncluded: true};
                 $localStorage[storageKey].imageSelectionIndex = $localStorage[storageKey].imageSelectionIndex || 0;
