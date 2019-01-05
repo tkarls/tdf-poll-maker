@@ -81,32 +81,36 @@
     
     <div class="bb-code" ng-if="winners">
         
-        <div class="color-pickers">
-            <table>
-                <tr>
-                    <td>First place color:</td>
-                    <td><color-picker ng-model="color[1]" options="colorOptions"></color-picker></td>
-                </tr>
-                <tr>
-                    <td>Second place color:</td>
-                    <td><color-picker ng-model="color[2]" options="colorOptions"></color-picker></td>
-                </tr>
-                
-                <tr>
-                    <td>Third place color:</td>
-                    <td><color-picker ng-model="color[3]" options="colorOptions"></color-picker></td>
-                </tr>
-                
-                <tr>
-                    <td>Doll name color:</td>
-                    <td><color-picker ng-model="color.dollColor" options="colorOptions"></color-picker></td>
-                </tr>
-                <tr>
-                    <td>Caption color:</td>
-                    <td><color-picker ng-model="color.captionColor" options="colorOptions"></color-picker></td>
-                </tr>
-            </table>
-        </div>
+        <table>
+            <tr>
+                <td>First place color:</td>
+                <td><color-picker ng-model="color[1]" options="colorOptions"></color-picker></td>
+            </tr>
+            <tr>
+                <td>Second place color:</td>
+                <td><color-picker ng-model="color[2]" options="colorOptions"></color-picker></td>
+            </tr>
+            
+            <tr>
+                <td>Third place color:</td>
+                <td><color-picker ng-model="color[3]" options="colorOptions"></color-picker></td>
+            </tr>
+            
+            <tr>
+                <td>Doll name color:</td>
+                <td><color-picker ng-model="color.dollColor" options="colorOptions"></color-picker></td>
+            </tr>
+            <tr>
+                <td>Caption color:</td>
+                <td><color-picker ng-model="color.captionColor" options="colorOptions"></color-picker></td>
+            </tr>
+            <tr>
+                <td>Reverse order?</td>
+                <td>
+                    <md-checkbox ng-model="misc.reverseOrder" aria-label="Check to present winners in reverse order">
+                </td>
+            </tr>
+        </table>
         
         <div>
             <md-tabs md-dynamic-height class="no-animate">

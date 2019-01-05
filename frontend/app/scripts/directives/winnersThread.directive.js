@@ -94,8 +94,15 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log, $
         3: 140,
     };
 
+    $scope.misc = {
+        reverseOrder: true
+    };
+
     $scope.getAllWinnerBbCode = function () {
-        var winners = $scope.winners.slice(0, $scope.getNumumWinnersWithTies()).reverse();
+        var winners = $scope.winners.slice(0, $scope.getNumumWinnersWithTies());
+        if($scope.misc.reverseOrder === true){
+            winners = winners.reverse();
+        }
 
         var bbCode = '[center]\n';
         winners.forEach(function (winner){
