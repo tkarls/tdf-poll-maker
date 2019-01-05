@@ -66,36 +66,42 @@ function WinnersThreadController($http, $scope, $localStorage, $timeout, $log, $
         return 'unknown';
     };
 
+    $scope.color = {
+        1: '#CCB200',
+        2: '#919191',
+        3: '#DA7726',
+        dollColor: '#FF00FF',
+        captionColor: '#FF0000'
+    };
+
+    $scope.colorOptions = {
+        format: 'hexString',
+        alpha: false,
+        case: 'upper'
+    };
+
+    var places = {
+        1: 'First',
+        2: 'Second',
+        3: 'Third',
+        4: 'Fourth',
+        5: 'Fifth',
+    };
+
+    var size = {
+        1: 200,
+        2: 160,
+        3: 140,
+    };
+
     $scope.getAllWinnerBbCode = function () {
         var winners = $scope.winners.slice(0, $scope.getNumumWinnersWithTies()).reverse();
-
-        var places = {
-            1: 'First',
-            2: 'Second',
-            3: 'Third',
-            4: 'Fourth',
-            5: 'Fifth',
-        };
-
-        var size = {
-            1: 200,
-            2: 160,
-            3: 140,
-        };
-
-        var color = {
-            1: '#CCB200',
-            2: '#919191',
-            3: '#DA7726'
-        };
-
-        
 
         var bbCode = '[center]\n';
         winners.forEach(function (winner){
             bbCode += '[size=' + (size[winner.place] || 130) + ']';
-                bbCode += 'In [color='+(color[winner.place] || '#000000')+']'+ (places[winner.place] || (winner.place.toString() + ':th')) +' place[/color], with [b]'+ winner.votes +' votes[/b]\n';
-                bbCode+= '[b][color=#FF00FF]'+trim(winner.dollName)+'[/color][/b] in [color=#FF0000]"'+trim(winner.caption) +'"[/color]\n';
+                bbCode += 'In [color='+($scope.color[winner.place] || '#000000')+']'+ (places[winner.place] || (winner.place.toString() + ':th')) +' place[/color], with [b]'+ winner.votes +' votes[/b]\n';
+                bbCode+= '[b][color='+$scope.color.dollColor+']'+trim(winner.dollName)+'[/color][/b] in [color='+$scope.color.captionColor+']"'+trim(winner.caption) +'"[/color]\n';
                 bbCode+= 'by [i]'+trim(winner.contestant) +'[/i]\n';
                 bbCode+= '[img600]'+winner.imageUri+'[/img600]\n';
             bbCode += '[/size]\n\n\n\n\n\n';
