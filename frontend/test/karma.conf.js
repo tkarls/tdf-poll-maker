@@ -35,6 +35,7 @@ module.exports = function(config) {
       'bower_components/ngstorage/ngStorage.js',
       'bower_components/angular-loading-bar/build/loading-bar.js',
       'bower_components/xbbcode-parser/xbbcode.js',
+      'bower_components/js-sha1/src/sha1.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
