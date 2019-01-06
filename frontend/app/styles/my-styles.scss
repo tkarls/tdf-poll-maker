@@ -124,3 +124,10 @@ md-tabs.no-animate md-tab-content, md-tabs.no-animate md-ink-bar {
 .tab-selected {
     border-bottom: 1px solid white;
 }
+
+.sticky-top{
+    position: sticky;
+    top: 0px;
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.4)
+}
