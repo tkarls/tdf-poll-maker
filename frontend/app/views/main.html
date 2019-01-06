@@ -1,8 +1,11 @@
-<md-tabs md-dynamic-height md-selected="storage.selectedTab" class="no-animate">
-    <md-tab label="Create a contest poll">
-        <contest-thread></contest-thread>
-    </md-tab>
-    <md-tab label="Create a winners thread">
-        <winners-thread></winners-thread>
-    </md-tab>
-</md-tabs>
+<md-toolbar layout="row">
+    <md-button ng-class="{'tab-selected': storage.selectedTab === 0}" ng-click="storage.selectedTab = 0">Create a contest poll</md-button>
+    <md-button ng-class="{'tab-selected': storage.selectedTab === 1}" ng-click="storage.selectedTab = 1">Create a winners thread</md-button>
+</md-toolbar>
+
+<div ng-if="storage.selectedTab === 0">
+    <contest-thread></contest-thread>
+</div>
+<div ng-if="storage.selectedTab === 1">
+    <winners-thread></winners-thread>
+</div>

@@ -17,7 +17,25 @@ table {
 th, td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    max-width: 300px;
+    max-width: 250px;
+}
+
+td.post-body{
+    width: 400px;
+    vertical-align: top;
+    button{
+        color: #4452B8;
+        height: 26px;
+        min-height: 26px;
+        font-size: small;
+    }
+    .tab-selected {
+        border-bottom: 1px solid #4452B8;
+    }
+    md-toolbar{
+        min-height: 26px;
+        background-color: inherit;
+    }
 }
 
 .doll-name{
@@ -103,5 +121,6 @@ md-tabs.no-animate md-tab-content, md-tabs.no-animate md-ink-bar {
     }
 }
 
-.color-pickers {
+.tab-selected {
+    border-bottom: 1px solid white;
 }

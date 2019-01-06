@@ -43,7 +43,7 @@
                 <th>Doll name</th>
                 <th>Caption</th>
             </tr>
-            <tr ng-repeat="cand in candidates" class="entry" ng-class="{'not-an-entry': storage[cand.storageKey].isIncluded === false}">
+            <tr ng-repeat="cand in candidates" class="entry" ng-class="{'not-an-entry': storage[cand.storageKey].isIncluded === false}" ng-init="selectedSubTab = 0">
                 <td>
                     <div>
                         <md-checkbox ng-model="storage[cand.storageKey].isIncluded" aria-label="Check to include in output">
@@ -54,15 +54,18 @@
                 <td>
                     {{cand.postAuthor}}
                 </td>
-                <td>
-                    <md-tabs md-selected="selectedSubTab" class="no-animate">
-                        <md-tab label="Text only">
-                            <div ng-bind-html="cand.postBody.text | highlight:cand"></div>
-                        </md-tab>
-                        <md-tab label="Full view">
-                                <div ng-if="selectedSubTab === 1" class="limit-image" ng-bind-html="cand.postBody.html"></div>
-                        </md-tab>
-                    </md-tabs>
+                <td class="post-body">
+                    <md-toolbar layout="row">
+                        <md-button ng-class="{'tab-selected': selectedSubTab === 0}" ng-click="selectedSubTab = 0">Text only</md-button>
+                        <md-button ng-class="{'tab-selected': selectedSubTab === 1}" ng-click="selectedSubTab = 1">Full view</md-button>
+                    </md-toolbar>
+                    
+                    <div ng-if="selectedSubTab === 0">
+                        <div ng-bind-html="cand.postBody.text | highlight:cand"></div>
+                    </div>
+                    <div ng-if="selectedSubTab === 1">
+                        <div class="limit-image" ng-bind-html="cand.postBody.html"></div>
+                    </div>
                 </td>
                 <td>
                     <div ng-if="cand.postBody.images.length > 1">
